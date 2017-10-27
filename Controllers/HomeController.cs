@@ -8,7 +8,9 @@ namespace LeagueManager.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var db = new ApplicationDbContext();
+
+            return View(db.Tournaments.First());
         }
 
         public IActionResult About()
