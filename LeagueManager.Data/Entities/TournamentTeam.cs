@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LeagueManager.Data.Entities
 {
@@ -8,6 +9,7 @@ namespace LeagueManager.Data.Entities
         public int TournamentId { get; set; }
         public int TeamId { get; set; }
         public int Seed { get; set; }
+        [MaxLength(30)]
         public string TeamNameOverride { get; set; }
 
         public virtual Tournament Tournament { get; set; }

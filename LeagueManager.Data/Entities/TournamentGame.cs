@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace LeagueManager.Data.Entities
@@ -13,9 +14,14 @@ namespace LeagueManager.Data.Entities
         public bool? ParticipantAGameIsWinner { get; set; }
         public int? ParticipantBTournamentGameId { get; set; }
         public bool? ParticipantBGameIsWinner { get; set; }
+        [MaxLength(10)]
         public string Tag { get; set; }
+        [MaxLength(100)]
         public string Description { get; set; }
+        [MaxLength(50)]
         public string Result { get; set; }
+        [MaxLength(50)]
+        public string ResultLabel { get; set; }
 
         public virtual Tournament Tournament { get; set; }
         public virtual TournamentTeam ParticipantATournamentTeam { get; set; }

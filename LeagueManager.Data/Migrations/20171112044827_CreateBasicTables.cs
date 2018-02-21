@@ -7,14 +7,25 @@ namespace LeagueManager.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUserRoles_UserId",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles");
+
+            migrationBuilder.DropIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers");
+
             migrationBuilder.CreateTable(
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Level = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,11 +36,11 @@ namespace LeagueManager.Data.Migrations
                 name: "Tournaments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Dates = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Dates = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,12 +51,12 @@ namespace LeagueManager.Data.Migrations
                 name: "TournamentTeams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Seed = table.Column<int>(nullable: false),
-                    TeamId = table.Column<int>(nullable: false),
-                    TeamNameOverride = table.Column<string>(nullable: true),
-                    TournamentId = table.Column<int>(nullable: false)
+                    TournamentId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false),
+                    Seed = table.Column<int>(type: "int", nullable: false),
+                    TeamNameOverride = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,18 +79,18 @@ namespace LeagueManager.Data.Migrations
                 name: "TournamentGames",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    ParticipantAGameIsWinner = table.Column<bool>(nullable: true),
-                    ParticipantATournamentGameId = table.Column<int>(nullable: true),
-                    ParticipantATournamentTeamId = table.Column<int>(nullable: true),
-                    ParticipantBGameIsWinner = table.Column<bool>(nullable: true),
-                    ParticipantBTournamentGameId = table.Column<int>(nullable: true),
-                    ParticipantBTournamentTeamId = table.Column<int>(nullable: true),
-                    Result = table.Column<string>(nullable: true),
-                    Tag = table.Column<string>(nullable: true),
-                    TournamentId = table.Column<int>(nullable: false)
+                    TournamentId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParticipantAGameIsWinner = table.Column<bool>(type: "bit", nullable: true),
+                    ParticipantATournamentGameId = table.Column<int>(type: "int", nullable: true),
+                    ParticipantATournamentTeamId = table.Column<int>(type: "int", nullable: true),
+                    ParticipantBGameIsWinner = table.Column<bool>(type: "bit", nullable: true),
+                    ParticipantBTournamentGameId = table.Column<int>(type: "int", nullable: true),
+                    ParticipantBTournamentTeamId = table.Column<int>(type: "int", nullable: true),
+                    Tag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -120,11 +131,11 @@ namespace LeagueManager.Data.Migrations
                 name: "TournamentGameTeams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Score = table.Column<int>(nullable: true),
-                    TournamentGameId = table.Column<int>(nullable: false),
-                    TournamentTeamId = table.Column<int>(nullable: false)
+                    TournamentGameId = table.Column<int>(type: "int", nullable: false),
+                    TournamentTeamId = table.Column<int>(type: "int", nullable: false),
+                    Score = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -142,6 +153,20 @@ namespace LeagueManager.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TournamentGames_ParticipantATournamentGameId",
@@ -187,10 +212,22 @@ namespace LeagueManager.Data.Migrations
                 name: "IX_TournamentTeams_TournamentId",
                 table: "TournamentTeams",
                 column: "TournamentId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                table: "AspNetUserTokens");
+
             migrationBuilder.DropTable(
                 name: "TournamentGameTeams");
 
@@ -205,6 +242,30 @@ namespace LeagueManager.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tournaments");
+
+            migrationBuilder.DropIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles");
+
+            migrationBuilder.DropIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_UserId",
+                table: "AspNetUserRoles",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
         }
     }
 }
