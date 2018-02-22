@@ -102,9 +102,9 @@
                 <td><div><div class="over-line">@Model.Final.WinnerDisplayResult</div></div></td>
             </tr>
             <tr>
-                <td rowspan="12"><div class="final-desc"><div class="under-line">Consolation<br />Winners</div></div></td>
+                <td rowspan="12"><div class="final-desc"><div class="under-line">@Model.ConsFinal.ResultLabel</div></div></td>
                 <td><div></div></td>
-                <td rowspan="9"><div class="final-desc"><div class="under-line">2018 MACS<br />Champions</div></div></td>
+                <td rowspan="9"><div class="final-desc"><div class="under-line">@Model.Final.ResultLabel</div></div></td>
             </tr>
             <tr>
                 <td><div><div class="over-line">@Model.QuarterFinal3Vs6.TeamADisplay</div></div></td>
@@ -148,7 +148,7 @@
             </tr>
             <tr>
                 <td rowspan="2"><div></div></td>
-                <td><div class="final-desc"><div class="under-line">Third Place</div></div></td>
+                <td><div class="final-desc"><div class="under-line">@Model.ThirdPlace.ResultLabel</div></div></td>
             </tr>
             <tr>
                 <td><div><div class="under-line">@Model.SemiFinal2Vs3.LoserDisplayResult</div></div></td>

@@ -18,7 +18,5 @@ namespace LeagueManager.Data.Entities
         public virtual IEnumerable<TournamentGame> ParticipantATournamentGames { get; set; }
         public virtual IEnumerable<TournamentGame> ParticipantBTournamentGames { get; set; }
         public virtual IEnumerable<TournamentGameTeam> TournamentGameTeams { get; set; }
-
-        public string Display => $"#{Seed} {TeamNameOverride ?? Team.Name}";
     }
 }
